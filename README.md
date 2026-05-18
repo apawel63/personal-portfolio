@@ -17,3 +17,24 @@ Spring Boot backend, an Angular frontend, and Azure-managed infrastructure.
 The application will use the Angular frontend for the public portfolio
 experience and the Spring Boot backend for API-driven features backed by Azure
 SQL Database.
+
+## Backend Configuration
+
+The Spring Boot backend reads its SQL Database connection string from Azure Key
+Vault at startup. Store the JDBC URL in Key Vault using the secret name
+`spring-datasource-url`.
+
+Example secret value:
+
+```text
+jdbc:sqlserver://<sql-server-name>.database.windows.net:1433;database=portfolioapp-db-dev;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;authentication=ActiveDirectoryDefault;
+```
+
+For local development, sign in with Azure CLI before starting the backend:
+
+```powershell
+az login
+```
+
+When deployed to Azure Container Apps, grant the container app's managed
+identity access to read secrets from the Key Vault and connect to Azure SQL.
