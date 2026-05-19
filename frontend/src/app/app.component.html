@@ -1,0 +1,104 @@
+<div class="site-shell">
+  <aside class="intro" aria-label="Portfolio introduction">
+    <div>
+      <p class="eyebrow">Personal Portfolio</p>
+      <h1>Alex</h1>
+      <h2>Full-stack developer</h2>
+      <p class="lede">
+        Building a cloud-hosted portfolio with Angular, Spring Boot, Azure SQL,
+        and a careful eye for simple, useful interfaces.
+      </p>
+    </div>
+
+    <nav class="section-nav" aria-label="Primary sections">
+      <a href="#about" [class.active]="activeSection === 'about'">
+        <span></span>
+        About
+      </a>
+      <a href="#experience" [class.active]="activeSection === 'experience'">
+        <span></span>
+        Experience
+      </a>
+      <a href="#education" [class.active]="activeSection === 'education'">
+        <span></span>
+        Education
+      </a>
+    </nav>
+
+    <div class="meta-links" aria-label="Profile links">
+      <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+    </div>
+  </aside>
+
+  <main class="content" *ngIf="content$ | async as content; else loading">
+    <section id="about" class="section-block" aria-labelledby="about-heading">
+      <p class="section-kicker">01</p>
+      <h2 id="about-heading">About</h2>
+
+      <div class="about-list">
+        <article class="about-item" *ngFor="let about of content.about">
+          <div class="about-item-header">
+            <i class="about-icon" [ngClass]="getFaClass(about.icon)" aria-hidden="true"></i>
+            <h3>{{ about.heading }}</h3>
+          </div>
+          <p class="about-description">{{ about.subheading }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section-block" aria-labelledby="experience-heading">
+      <p class="section-kicker">02</p>
+      <h2 id="experience-heading">Experience</h2>
+
+      <div class="timeline-list">
+        <article class="timeline-item" *ngFor="let item of content.experience">
+          <div class="timeline-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</div>
+          <div class="timeline-card experience-card">
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p class="company">{{ item.company }}</p>
+              <p class="location" *ngIf="item.location">{{ item.location }}</p>
+              <ul class="task-list" *ngIf="item.tasks && item.tasks.length">
+                <li *ngFor="let task of item.tasks | slice:0:3">{{ task.description }}</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="education" class="section-block" aria-labelledby="education-heading">
+      <p class="section-kicker">03</p>
+      <h2 id="education-heading">Education</h2>
+
+      <div class="timeline-list">
+        <article class="timeline-item" *ngFor="let item of content.education">
+          <div class="timeline-date">{{ item.duration || 'Present' }}</div>
+          <div class="timeline-card">
+            <div class="avatar" *ngIf="item.avatar; else initials">
+              <img [src]="item.avatar" [alt]="item.school + ' logo'" (error)="item.avatar = null">
+            </div>
+            <ng-template #initials>
+              <div class="avatar avatar-fallback" aria-hidden="true">
+                {{ item.school.charAt(0) }}
+              </div>
+            </ng-template>
+
+            <div>
+              <h3>{{ item.degree }}</h3>
+              <p class="school">{{ item.school }}</p>
+              <p class="location" *ngIf="item.location">{{ item.location }}</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <ng-template #loading>
+    <main class="content loading-state" aria-live="polite">
+      <p>Loading portfolio content...</p>
+    </main>
+  </ng-template>
+</div>
