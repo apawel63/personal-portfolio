@@ -15,6 +15,10 @@
         <span></span>
         About
       </a>
+      <a href="#experience">
+        <span></span>
+        Experience
+      </a>
       <a href="#education">
         <span></span>
         Education
@@ -43,8 +47,29 @@
       </div>
     </section>
 
-    <section id="education" class="section-block" aria-labelledby="education-heading">
+    <section id="experience" class="section-block" aria-labelledby="experience-heading">
       <p class="section-kicker">02</p>
+      <h2 id="experience-heading">Experience</h2>
+
+      <div class="timeline-list">
+        <article class="timeline-item" *ngFor="let item of content.experience">
+          <div class="timeline-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</div>
+          <div class="timeline-card experience-card">
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p class="company">{{ item.company }}</p>
+              <p class="location" *ngIf="item.location">{{ item.location }}</p>
+              <ul class="task-list" *ngIf="item.tasks && item.tasks.length">
+                <li *ngFor="let task of item.tasks | slice:0:3">{{ task.description }}</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="education" class="section-block" aria-labelledby="education-heading">
+      <p class="section-kicker">03</p>
       <h2 id="education-heading">Education</h2>
 
       <div class="timeline-list">

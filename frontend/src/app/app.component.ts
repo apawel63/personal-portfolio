@@ -1,13 +1,14 @@
-import { AsyncPipe, NgFor, NgIf, NgClass } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PortfolioContent, PortfolioContentService } from './portfolio-content.service';
+import { DateRangePipe } from './date-range.pipe';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe, NgFor, NgIf, NgClass],
+  imports: [AsyncPipe, NgFor, NgIf, NgClass, SlicePipe, DateRangePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -24,8 +24,25 @@ export interface EducationItem {
   avatar?: string | null;
 }
 
+export interface ExperienceTask {
+  id: number;
+  description: string;
+  sortOrder: number;
+}
+
+export interface ExperienceItem {
+  id: number;
+  company: string;
+  location?: string | null;
+  title: string;
+  startDate: string;
+  endDate?: string | null;
+  tasks: ExperienceTask[];
+}
+
 export interface PortfolioContent {
   about: AboutContent[];
+  experience: ExperienceItem[];
   education: EducationItem[];
 }
 
@@ -39,6 +56,20 @@ const fallbackAbout: AboutContent[] = [
       library: 'default',
       name: 'portfolio'
     }
+  }
+];
+
+const fallbackExperience: ExperienceItem[] = [
+  {
+    id: 1,
+    company: 'Company Name',
+    title: 'Job Title',
+    location: 'City, State',
+    startDate: '2024-01-01',
+    endDate: null,
+    tasks: [
+      { id: 1, description: 'Task or responsibility', sortOrder: 1 }
+    ]
   }
 ];
 
@@ -59,6 +90,7 @@ export class PortfolioContentService {
   getPortfolioContent(): Observable<PortfolioContent> {
     return forkJoin({
       about: this.http.get<AboutContent[]>('/api/about').pipe(catchError(() => of(fallbackAbout))),
+      experience: this.http.get<ExperienceItem[]>('/api/work-experience').pipe(catchError(() => of(fallbackExperience))),
       education: this.http.get<EducationItem[]>('/api/education').pipe(catchError(() => of(fallbackEducation)))
     });
   }
