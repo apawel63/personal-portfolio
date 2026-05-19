@@ -99,6 +99,15 @@ h1 {
   background: #f8fafc;
 }
 
+.section-nav a.active {
+  color: #5eead4;
+}
+
+.section-nav a.active span {
+  width: 4rem;
+  background: #5eead4;
+}
+
 .meta-links {
   display: flex;
   flex-wrap: wrap;

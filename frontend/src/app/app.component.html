@@ -11,15 +11,15 @@
     </div>
 
     <nav class="section-nav" aria-label="Primary sections">
-      <a href="#about">
+      <a href="#about" [class.active]="activeSection === 'about'">
         <span></span>
         About
       </a>
-      <a href="#experience">
+      <a href="#experience" [class.active]="activeSection === 'experience'">
         <span></span>
         Experience
       </a>
-      <a href="#education">
+      <a href="#education" [class.active]="activeSection === 'education'">
         <span></span>
         Education
       </a>

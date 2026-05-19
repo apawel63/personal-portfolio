@@ -1,5 +1,5 @@
 import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PortfolioContent, PortfolioContentService } from './portfolio-content.service';
@@ -12,11 +12,45 @@ import { DateRangePipe } from './date-range.pipe';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   readonly content$: Observable<PortfolioContent>;
+  activeSection: string | null = 'about';
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => this.updateActiveSection(), 100);
+  }
+
+  @HostListener('window:scroll')
+  onScroll(): void {
+    this.updateActiveSection();
+  }
+
+  private updateActiveSection(): void {
+    const sections = document.querySelectorAll('.section-block');
+    let current = 'about';
+
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100;
+
+    if (atBottom && sections.length > 0) {
+      current = sections[sections.length - 1].id;
+    } else {
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 150) {
+          current = section.id;
+        }
+      });
+    }
+
+    this.activeSection = current;
+  }
+
+  ngOnDestroy(): void {
+    // cleanup if needed
   }
 
   getFaClass(icon: { library: string; name: string } | null | undefined): string {
