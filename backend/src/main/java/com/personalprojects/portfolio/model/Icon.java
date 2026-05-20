@@ -29,6 +29,14 @@ public class Icon {
         this.id = id;
     }
 
+    public String getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+
     public String getName() {
         return name;
     }

@@ -23,6 +23,10 @@
         <span></span>
         Education
       </a>
+      <a href="#projects" [class.active]="activeSection === 'projects'">
+        <span></span>
+        Projects
+      </a>
     </nav>
 
     <div class="meta-links" aria-label="Profile links">
@@ -94,6 +98,87 @@
         </article>
       </div>
     </section>
+
+    <section id="projects" class="section-block" aria-labelledby="projects-heading">
+      <p class="section-kicker">04</p>
+      <h2 id="projects-heading">Projects</h2>
+
+      <div class="project-grid">
+        <article class="project-card" *ngFor="let project of content.projects">
+          <div class="project-image">
+            <img [src]="project.imageUrl" [alt]="project.title + ' preview'">
+          </div>
+
+          <div class="project-body">
+            <p class="project-category">{{ project.category }}</p>
+            <h3>{{ project.title }}</h3>
+
+            <div class="project-actions">
+              <div class="icon-link-list" *ngIf="project.links && project.links.length" [attr.aria-label]="project.title + ' links'">
+                <a
+                  *ngFor="let link of project.links"
+                  [href]="link.url"
+                  target="_blank"
+                  rel="noreferrer"
+                  [attr.aria-label]="link.name"
+                  [title]="link.name">
+                  <i [ngClass]="getFaClass(link.icon)" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <button type="button" class="details-button" (click)="openProjectDetails(project)">
+                Details
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div
+      class="modal-backdrop"
+      *ngIf="selectedProject as project"
+      role="presentation"
+      (click)="closeProjectDetails()">
+      <section
+        class="project-modal"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-labelledby]="'project-modal-title-' + project.id"
+        (click)="$event.stopPropagation()">
+        <button type="button" class="modal-close" (click)="closeProjectDetails()" aria-label="Close project details">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+
+        <p class="project-category">{{ project.category }}</p>
+        <h2 [id]="'project-modal-title-' + project.id">{{ project.title }}</h2>
+        <p class="modal-description">{{ project.description }}</p>
+
+        <div class="modal-section" *ngIf="project.technologies && project.technologies.length">
+          <h3>Technologies</h3>
+          <ul class="pill-list">
+            <li *ngFor="let technology of project.technologies">
+              <i [ngClass]="getFaClass(technology.icon)" aria-hidden="true"></i>
+              {{ technology.name }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="modal-section" *ngIf="project.links && project.links.length">
+          <h3>Links</h3>
+          <div class="modal-link-list">
+            <a
+              *ngFor="let link of project.links"
+              [href]="link.url"
+              target="_blank"
+              rel="noreferrer">
+              <i [ngClass]="getFaClass(link.icon)" aria-hidden="true"></i>
+              {{ link.name }}
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <ng-template #loading>
