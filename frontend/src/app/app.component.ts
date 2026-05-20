@@ -2,7 +2,7 @@ import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PortfolioContent, PortfolioContentService } from './portfolio-content.service';
+import { PortfolioContent, PortfolioContentService, ProjectItem } from './portfolio-content.service';
 import { DateRangePipe } from './date-range.pipe';
 
 @Component({
@@ -15,6 +15,7 @@ import { DateRangePipe } from './date-range.pipe';
 export class AppComponent implements OnInit, OnDestroy {
   readonly content$: Observable<PortfolioContent>;
   activeSection: string | null = 'about';
+  selectedProject: ProjectItem | null = null;
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
@@ -50,7 +51,24 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // cleanup if needed
+    document.body.classList.remove('modal-open');
+  }
+
+  openProjectDetails(project: ProjectItem): void {
+    this.selectedProject = project;
+    document.body.classList.add('modal-open');
+  }
+
+  closeProjectDetails(): void {
+    this.selectedProject = null;
+    document.body.classList.remove('modal-open');
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.selectedProject) {
+      this.closeProjectDetails();
+    }
   }
 
   getFaClass(icon: { library: string; name: string } | null | undefined): string {
@@ -59,6 +77,23 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     const mapping: Record<string, string> = {
+      FaExternalLinkAlt: 'fa-solid fa-arrow-up-right-from-square',
+      FaFilePdf: 'fa-solid fa-file-pdf',
+      FaGithub: 'fa-brands fa-github',
+      FaGlobe: 'fa-solid fa-globe',
+      FaLinkedin: 'fa-brands fa-linkedin',
+      FaYoutube: 'fa-brands fa-youtube',
+      SiAndroid: 'fa-brands fa-android',
+      SiCss3: 'fa-brands fa-css3-alt',
+      SiFirebase: 'fa-solid fa-fire',
+      SiGithub: 'fa-brands fa-github',
+      SiHtml5: 'fa-brands fa-html5',
+      SiJava: 'fa-brands fa-java',
+      SiJavascript: 'fa-brands fa-js',
+      SiMicrosoftazure: 'fa-brands fa-microsoft',
+      SiPython: 'fa-brands fa-python',
+      SiReact: 'fa-brands fa-react',
+      SiSpringboot: 'fa-solid fa-leaf',
       MdSchool: 'fa-solid fa-graduation-cap',
       SiGeneralmotors: 'fa-solid fa-industry',
       GiArchiveResearch: 'fa-solid fa-book-open',

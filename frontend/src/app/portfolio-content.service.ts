@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, map, of } from 'rxjs';
+import { Observable, catchError, forkJoin, of, timeout } from 'rxjs';
 
 export interface IconContent {
   id: number;
@@ -40,10 +40,34 @@ export interface ExperienceItem {
   tasks: ExperienceTask[];
 }
 
+export interface ProjectTechnology {
+  id: number;
+  name: string;
+  icon?: IconContent | null;
+}
+
+export interface ProjectLink {
+  id: number;
+  name: string;
+  icon?: IconContent | null;
+  url: string;
+}
+
+export interface ProjectItem {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  imageUrl: string;
+  technologies: ProjectTechnology[];
+  links: ProjectLink[];
+}
+
 export interface PortfolioContent {
   about: AboutContent[];
   experience: ExperienceItem[];
   education: EducationItem[];
+  projects: ProjectItem[];
 }
 
 const fallbackAbout: AboutContent[] = [
@@ -83,15 +107,38 @@ const fallbackEducation: EducationItem[] = [
   }
 ];
 
+const fallbackProjects: ProjectItem[] = [
+  {
+    id: 1,
+    title: 'Portfolio Project',
+    category: 'Web Development',
+    description: 'A featured project will appear here once the projects API is available.',
+    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    technologies: [
+      { id: 1, name: 'Angular' },
+      { id: 2, name: 'Spring Boot' }
+    ],
+    links: [
+      {
+        id: 1,
+        name: 'Source Code',
+        icon: { id: 1, library: 'fa', name: 'FaGithub' },
+        url: 'https://github.com/'
+      }
+    ]
+  }
+];
+
 @Injectable({ providedIn: 'root' })
 export class PortfolioContentService {
   constructor(private readonly http: HttpClient) {}
 
   getPortfolioContent(): Observable<PortfolioContent> {
     return forkJoin({
-      about: this.http.get<AboutContent[]>('/api/about').pipe(catchError(() => of(fallbackAbout))),
-      experience: this.http.get<ExperienceItem[]>('/api/work-experience').pipe(catchError(() => of(fallbackExperience))),
-      education: this.http.get<EducationItem[]>('/api/education').pipe(catchError(() => of(fallbackEducation)))
+      about: this.http.get<AboutContent[]>('/api/about').pipe(timeout(3000), catchError(() => of(fallbackAbout))),
+      experience: this.http.get<ExperienceItem[]>('/api/work-experience').pipe(timeout(3000), catchError(() => of(fallbackExperience))),
+      education: this.http.get<EducationItem[]>('/api/education').pipe(timeout(3000), catchError(() => of(fallbackEducation))),
+      projects: this.http.get<ProjectItem[]>('/api/projects').pipe(timeout(3000), catchError(() => of(fallbackProjects)))
     });
   }
 }
