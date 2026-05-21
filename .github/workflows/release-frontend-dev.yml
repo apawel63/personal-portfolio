@@ -39,6 +39,7 @@ jobs:
           fi
           echo "sha=$SHA" >> $GITHUB_OUTPUT
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "Deploying SHA $SHA from build run $RUN_ID"
 
       - name: Download build artifact
         env:

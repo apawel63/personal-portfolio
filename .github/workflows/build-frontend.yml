@@ -34,3 +34,4 @@ jobs:
           name: frontend-build
           path: frontend/dist/portfolio-frontend/browser/
           retention-days: 7
+          if-no-files-found: error
