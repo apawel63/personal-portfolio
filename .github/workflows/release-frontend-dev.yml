@@ -41,12 +41,13 @@ jobs:
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          run-id: ${{ steps.resolve-run.outputs.run_id }}
-          github-token: ${{ github.token }}
-          path: dist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download ${{ steps.resolve-run.outputs.run_id }} \
+            --repo ${{ github.repository }} \
+            --name frontend-build \
+            --dir dist
 
       - name: Deploy to SWA
         uses: azure/static-web-apps-deploy@v1
