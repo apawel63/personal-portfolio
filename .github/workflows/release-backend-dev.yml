@@ -27,7 +27,6 @@ jobs:
             SHA=$(gh run list \
               --repo ${{ github.repository }} \
               --workflow "backend-docker.yml" \
-              --branch main \
               --status success \
               --limit 1 \
               --json headSha \

@@ -24,15 +24,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            RUN_INFO=$(gh run list \
-              --repo ${{ github.repository }} \
-              --workflow "build-frontend.yml" \
-              --branch main \
-              --status success \
-              --limit 1 \
-              --json headSha,databaseId)
-            SHA=$(echo $RUN_INFO | jq -r '.[0].headSha')
-            RUN_ID=$(echo $RUN_INFO | jq -r '.[0].databaseId')
+            RUN_INFO=$(gh api "repos/${{ github.repository }}/actions/workflows/build-frontend.yml/runs?status=success&per_page=1" \
+              --jq '.workflow_runs[0] | {sha: .head_sha, id: .id}')
+            SHA=$(echo $RUN_INFO | jq -r '.sha')
+            RUN_ID=$(echo $RUN_INFO | jq -r '.id')
           else
             SHA="${{ github.event.workflow_run.head_sha }}"
             RUN_ID="${{ github.event.workflow_run.id }}"
