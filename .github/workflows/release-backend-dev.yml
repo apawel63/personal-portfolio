@@ -5,17 +5,38 @@ on:
     workflows: ["Build and Push Backend Docker Image"]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: aca-dev
     permissions:
       id-token: write
       contents: read
+      actions: read
 
     steps:
+      - name: Resolve image SHA
+        id: resolve-sha
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            SHA=$(gh run list \
+              --repo ${{ github.repository }} \
+              --workflow "backend-docker.yml" \
+              --branch main \
+              --status success \
+              --limit 1 \
+              --json headSha \
+              --jq '.[0].headSha')
+          else
+            SHA="${{ github.event.workflow_run.head_sha }}"
+          fi
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
       - name: Log in to Azure
         uses: azure/login@v2
         with:
@@ -25,10 +46,13 @@ jobs:
 
       - name: Deploy to ACA
         run: |
+          az containerapp registry set \
+            --name ${{ vars.ACA_NAME }} \
+            --resource-group rg-portfolioapp-dev \
+            --server docker.io \
+            --username ${{ secrets.DOCKERHUB_USERNAME }} \
+            --password ${{ secrets.DOCKERHUB_TOKEN }}
           az containerapp update \
             --name ${{ vars.ACA_NAME }} \
             --resource-group rg-portfolioapp-dev \
-            --image apawel63/portfolioapp:${{ github.event.workflow_run.head_sha }} \
-            --registry-server docker.io \
-            --registry-username ${{ secrets.DOCKERHUB_USERNAME }} \
-            --registry-password ${{ secrets.DOCKERHUB_TOKEN }}
+            --image apawel63/portfolioapp:${{ steps.resolve-sha.outputs.sha }}
