@@ -28,4 +28,7 @@ jobs:
           az containerapp update \
             --name ${{ vars.ACA_NAME }} \
             --resource-group rg-portfolioapp-dev \
-            --image apawel63/portfolioapp:${{ github.event.workflow_run.head_sha }}
+            --image apawel63/portfolioapp:${{ github.event.workflow_run.head_sha }} \
+            --registry-server docker.io \
+            --registry-username ${{ secrets.DOCKERHUB_USERNAME }} \
+            --registry-password ${{ secrets.DOCKERHUB_TOKEN }}
