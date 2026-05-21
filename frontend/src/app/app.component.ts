@@ -2,7 +2,7 @@ import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PortfolioContent, PortfolioContentService, ProjectItem } from './portfolio-content.service';
+import { PortfolioContent, PortfolioContentService, ProjectItem, SkillItem } from './portfolio-content.service';
 import { DateRangePipe } from './date-range.pipe';
 
 @Component({
@@ -71,6 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // TODO: Refactor icon mappings - should be completely dynamic from DB
   getFaClass(icon: { library: string; name: string } | null | undefined): string {
     if (!icon || !icon.name) {
       return 'fa-solid fa-circle';
@@ -85,14 +86,20 @@ export class AppComponent implements OnInit, OnDestroy {
       FaYoutube: 'fa-brands fa-youtube',
       SiAndroid: 'fa-brands fa-android',
       SiCss3: 'fa-brands fa-css3-alt',
+      SiExpress: 'fa-solid fa-server',
       SiFirebase: 'fa-solid fa-fire',
+      SiGit: 'fa-brands fa-git-alt',
       SiGithub: 'fa-brands fa-github',
       SiHtml5: 'fa-brands fa-html5',
       SiJava: 'fa-brands fa-java',
       SiJavascript: 'fa-brands fa-js',
       SiMicrosoftazure: 'fa-brands fa-microsoft',
+      SiMongodb: 'fa-solid fa-leaf',
+      SiNextdotjs: 'fa-solid fa-n',
+      SiNodedotjs: 'fa-brands fa-node-js',
       SiPython: 'fa-brands fa-python',
       SiReact: 'fa-brands fa-react',
+      SiSass: 'fa-brands fa-sass',
       SiSpringboot: 'fa-solid fa-leaf',
       MdSchool: 'fa-solid fa-graduation-cap',
       SiGeneralmotors: 'fa-solid fa-industry',
@@ -101,5 +108,24 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     return mapping[icon.name] ?? 'fa-solid fa-circle';
+  }
+
+  getSkillFaClass(skill: SkillItem): string {
+    const mapping: Record<string, string> = {
+      'Java': 'fa-brands fa-java',
+      'Spring Boot': 'fa-solid fa-leaf',
+      'Angular': 'fa-brands fa-angular',
+      'React Native': 'fa-brands fa-react',
+      'Azure': 'fa-brands fa-microsoft',
+      'GitHub Actions': 'fa-brands fa-github',
+      'Kubernetes': 'fa-solid fa-dharmachakra',
+      'Docker': 'fa-brands fa-docker',
+      'Python': 'fa-brands fa-python',
+      'LangChain & LangGraph': 'fa-solid fa-bezier-curve',
+      'OpenAI APIs': 'fa-solid fa-robot',
+      'SQL Databases': 'fa-solid fa-database',
+    };
+
+    return mapping[skill.name] ?? this.getFaClass(skill.icon);
   }
 }

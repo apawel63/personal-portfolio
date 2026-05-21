@@ -40,13 +40,28 @@
       <p class="section-kicker">01</p>
       <h2 id="about-heading">About</h2>
 
-      <div class="about-list">
-        <article class="about-item" *ngFor="let about of content.about">
-          <div class="about-item-header">
-            <i class="about-icon" [ngClass]="getFaClass(about.icon)" aria-hidden="true"></i>
-            <h3>{{ about.heading }}</h3>
-          </div>
-          <p class="about-description">{{ about.subheading }}</p>
+      <div class="copy-stack about-copy">
+        <p>
+          I'm a full-stack software engineer passionate about building and modernizing cloud-native applications 
+          that solve real business problems. I specialize in Java, Spring Boot, Angular, and Azure-native technologies 
+          — crafting scalable backend services, secure API integrations, and intuitive user interfaces that hold up in 
+          large, high-stakes environments.
+        </p>
+        <p>
+          I take pride in delivering production-ready solutions that bridge the gap between technical design 
+          and business needs, with a strong focus on engineering quality through automation, testing, and 
+          collaborative development. Lately, I've been deep in the AI space — designing and deploying 
+          intelligent systems using LangGraph, OpenAI APIs, and LLM-based workflows.
+        </p>
+        <p>
+          When I'm not at my computer, I like to spend my time keeping fit, playing piano, and hanging out with my friends and family.
+        </p>
+      </div>
+
+      <div class="skill-grid" aria-label="Technical skills">
+        <article class="skill-card" *ngFor="let skill of content.skills">
+          <i class="skill-icon" [ngClass]="getSkillFaClass(skill)" aria-hidden="true"></i>
+          <h3>{{ skill.name }}</h3>
         </article>
       </div>
     </section>

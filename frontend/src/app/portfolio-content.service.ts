@@ -1,18 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, of, timeout } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, timeout } from 'rxjs';
 
 export interface IconContent {
   id: number;
   library: string;
   name: string;
-}
-
-export interface AboutContent {
-  id: number;
-  heading: string;
-  subheading?: string | null;
-  icon?: IconContent | null;
 }
 
 export interface EducationItem {
@@ -63,25 +56,20 @@ export interface ProjectItem {
   links: ProjectLink[];
 }
 
+export interface SkillItem {
+  id: number;
+  category: string;
+  name: string;
+  icon?: IconContent | null;
+  displayOrder: number;
+}
+
 export interface PortfolioContent {
-  about: AboutContent[];
+  skills: SkillItem[];
   experience: ExperienceItem[];
   education: EducationItem[];
   projects: ProjectItem[];
 }
-
-const fallbackAbout: AboutContent[] = [
-  {
-    id: 1,
-    heading: 'About',
-    subheading: 'A short snapshot of the person behind the work.',
-    icon: {
-      id: 1,
-      library: 'default',
-      name: 'portfolio'
-    }
-  }
-];
 
 const fallbackExperience: ExperienceItem[] = [
   {
@@ -129,13 +117,28 @@ const fallbackProjects: ProjectItem[] = [
   }
 ];
 
+const fallbackSkills: SkillItem[] = [
+  { id: 1, category: 'Frontend', name: 'HTML', icon: { id: 1, library: 'si', name: 'SiHtml5' }, displayOrder: 1 },
+  { id: 2, category: 'Frontend', name: 'CSS', icon: { id: 2, library: 'si', name: 'SiCss3' }, displayOrder: 2 },
+  { id: 3, category: 'Frontend', name: 'JavaScript', icon: { id: 3, library: 'si', name: 'SiJavascript' }, displayOrder: 3 },
+  { id: 4, category: 'Frontend', name: 'React', icon: { id: 4, library: 'si', name: 'SiReact' }, displayOrder: 4 },
+  { id: 5, category: 'Backend', name: 'Spring Boot', icon: { id: 5, library: 'si', name: 'SiSpringboot' }, displayOrder: 5 },
+  { id: 6, category: 'Language', name: 'Python', icon: { id: 6, library: 'si', name: 'SiPython' }, displayOrder: 6 },
+  { id: 7, category: 'Cloud', name: 'Azure', icon: { id: 7, library: 'si', name: 'SiMicrosoftazure' }, displayOrder: 7 },
+  { id: 8, category: 'Tools', name: 'Git', icon: { id: 8, library: 'si', name: 'SiGit' }, displayOrder: 8 }
+];
+
 @Injectable({ providedIn: 'root' })
 export class PortfolioContentService {
   constructor(private readonly http: HttpClient) {}
 
   getPortfolioContent(): Observable<PortfolioContent> {
     return forkJoin({
-      about: this.http.get<AboutContent[]>('/api/about').pipe(timeout(3000), catchError(() => of(fallbackAbout))),
+      skills: this.http.get<SkillItem[]>('/api/skills').pipe(
+        timeout(3000),
+        catchError(() => of(fallbackSkills)),
+        map(skills => [...skills].sort((a, b) => a.category.localeCompare(b.category) || a.displayOrder - b.displayOrder || a.name.localeCompare(b.name)))
+      ),
       experience: this.http.get<ExperienceItem[]>('/api/work-experience').pipe(timeout(3000), catchError(() => of(fallbackExperience))),
       education: this.http.get<EducationItem[]>('/api/education').pipe(timeout(3000), catchError(() => of(fallbackEducation))),
       projects: this.http.get<ProjectItem[]>('/api/projects').pipe(timeout(3000), catchError(() => of(fallbackProjects)))
