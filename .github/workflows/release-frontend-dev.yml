@@ -1,0 +1,58 @@
+name: Release Frontend to SWA Dev
+
+on:
+  workflow_run:
+    workflows: ["Build Frontend"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: swa-dev
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+
+    steps:
+      - name: Resolve build run
+        id: resolve-run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            RUN_INFO=$(gh run list \
+              --repo ${{ github.repository }} \
+              --workflow "build-frontend.yml" \
+              --branch main \
+              --status success \
+              --limit 1 \
+              --json headSha,databaseId)
+            SHA=$(echo $RUN_INFO | jq -r '.[0].headSha')
+            RUN_ID=$(echo $RUN_INFO | jq -r '.[0].databaseId')
+          else
+            SHA="${{ github.event.workflow_run.head_sha }}"
+            RUN_ID="${{ github.event.workflow_run.id }}"
+          fi
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          run-id: ${{ steps.resolve-run.outputs.run_id }}
+          github-token: ${{ github.token }}
+          path: dist
+
+      - name: Deploy to SWA
+        uses: azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          skip_app_build: true
+          app_location: dist
+          output_location: ""
