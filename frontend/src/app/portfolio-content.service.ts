@@ -136,13 +136,13 @@ export class PortfolioContentService {
   getPortfolioContent(): Observable<PortfolioContent> {
     return forkJoin({
       skills: this.http.get<SkillItem[]>(`${environment.apiBaseUrl}/api/skills`).pipe(
-        timeout(3000),
+        timeout(30000),
         catchError(() => of(fallbackSkills)),
         map(skills => [...skills].sort((a, b) => a.category.localeCompare(b.category) || a.displayOrder - b.displayOrder || a.name.localeCompare(b.name)))
       ),
-      experience: this.http.get<ExperienceItem[]>(`${environment.apiBaseUrl}/api/work-experience`).pipe(timeout(3000), catchError(() => of(fallbackExperience))),
-      education: this.http.get<EducationItem[]>(`${environment.apiBaseUrl}/api/education`).pipe(timeout(3000), catchError(() => of(fallbackEducation))),
-      projects: this.http.get<ProjectItem[]>(`${environment.apiBaseUrl}/api/projects`).pipe(timeout(3000), catchError(() => of(fallbackProjects)))
+      experience: this.http.get<ExperienceItem[]>(`${environment.apiBaseUrl}/api/work-experience`).pipe(timeout(30000), catchError(() => of(fallbackExperience))),
+      education: this.http.get<EducationItem[]>(`${environment.apiBaseUrl}/api/education`).pipe(timeout(30000), catchError(() => of(fallbackEducation))),
+      projects: this.http.get<ProjectItem[]>(`${environment.apiBaseUrl}/api/projects`).pipe(timeout(30000), catchError(() => of(fallbackProjects)))
     });
   }
 }
