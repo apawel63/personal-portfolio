@@ -186,7 +186,7 @@ h1 {
 .skill-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
@@ -197,7 +197,7 @@ h1 {
   align-content: center;
   gap: 1.1rem;
   padding: 1.1rem 0.85rem;
-  border: 1px solid rgba(45, 212, 191, 0.24);
+  border: 1px solid rgba(var(--card-accent-rgb, 94, 234, 212), 0.24);
   border-radius: 8px;
   background: rgba(15, 23, 42, 0.64);
   text-align: center;
@@ -205,7 +205,7 @@ h1 {
 }
 
 .skill-card:hover {
-  border-color: rgba(94, 234, 212, 0.42);
+  border-color: rgba(var(--card-accent-rgb, 94, 234, 212), 0.5);
   transform: translateY(-2px);
 }
 
@@ -213,19 +213,21 @@ h1 {
   display: grid;
   min-height: 2rem;
   place-items: center;
-  color: #5eead4;
+  color: rgb(var(--card-accent-rgb, 94, 234, 212));
   font-size: 2rem;
   line-height: 1;
 }
 
+.skill-cat-full-stack-dev { --card-accent-rgb: 94, 234, 212; }
+.skill-cat-cloud-devops   { --card-accent-rgb: 125, 211, 252; }
+.skill-cat-ai             { --card-accent-rgb: 251, 113, 133; }
+
 .skill-card h3 {
   margin: 0;
   color: #f8fafc;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 700;
   line-height: 1.25;
-  text-transform: uppercase;
 }
 
 .pill-list {
