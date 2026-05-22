@@ -1,6 +1,7 @@
 package com.personalprojects.portfolio.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,6 +47,7 @@ public class WorkExperience {
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
+    @BatchSize(size = 25)
     private Set<WorkExperienceTechnology> technologies = new HashSet<>();
  
     // --- Constructors ---

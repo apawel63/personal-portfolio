@@ -2,7 +2,6 @@ package com.personalprojects.portfolio.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public class WorkExperienceDto {
 

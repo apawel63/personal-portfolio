@@ -12,11 +12,11 @@ import java.util.Optional;
 @Repository
 public interface WorkExperienceRepository extends JpaRepository<WorkExperience, Integer> {
  
-    // DISTINCT avoids duplicate root rows from joining two collections.
-    // List<tasks> + Set<technologies> avoids Hibernate MultipleBagFetchException.
-    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks LEFT JOIN FETCH w.technologies t LEFT JOIN FETCH t.icon ORDER BY w.startDate DESC")
+    // Technologies are excluded from this join to avoid a Cartesian product (tasks × technologies)
+    // that duplicates List<tasks> entries. Technologies lazy-load via @BatchSize on the field.
+    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks ORDER BY w.startDate DESC")
     List<WorkExperience> findAllWithTasks();
 
-    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks LEFT JOIN FETCH w.technologies t LEFT JOIN FETCH t.icon WHERE w.id = :id")
+    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks WHERE w.id = :id")
     Optional<WorkExperience> findByIdWithTasks(Integer id);
 }
