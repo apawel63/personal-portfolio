@@ -2,11 +2,11 @@
   <aside class="intro" aria-label="Portfolio introduction">
     <div>
       <p class="eyebrow">Personal Portfolio</p>
-      <h1>Alex</h1>
+      <h1>Alex Pawelczyk</h1>
       <h2>Full-stack developer</h2>
+      <p class="tagline">Spring Boot&nbsp;•&nbsp;Angular&nbsp;•&nbsp;Azure&nbsp;•&nbsp;AI Workflows</p>
       <p class="lede">
-        Building a cloud-hosted portfolio with Angular, Spring Boot, Azure SQL,
-        and a careful eye for simple, useful interfaces.
+        Building thoughtful software solutions with modern technologies and practical engineering.
       </p>
     </div>
 
@@ -42,24 +42,20 @@
 
       <div class="copy-stack about-copy">
         <p>
-          I'm a full-stack software engineer passionate about building and modernizing cloud-native applications 
-          that solve real business problems. I specialize in Java, Spring Boot, Angular, and Azure-native technologies 
-          — crafting scalable backend services, secure API integrations, and intuitive user interfaces that hold up in 
-          large, high-stakes environments.
+          I'm a passionate software engineer focused on building scalable, cloud-native applications that
+          solve real business problems. My experience centers around Java, Spring Boot, Angular, and Azure, 
+          where I design modern backend services, secure APIs, and intuitive user experiences with a strong 
+          focus on quality, automation, and maintainability.
         </p>
         <p>
-          I take pride in delivering production-ready solutions that bridge the gap between technical design 
-          and business needs, with a strong focus on engineering quality through automation, testing, and 
-          collaborative development. Lately, I've been deep in the AI space — designing and deploying 
-          intelligent systems using LangGraph, OpenAI APIs, and LLM-based workflows.
-        </p>
-        <p>
-          When I'm not at my computer, I like to spend my time keeping fit, playing piano, and hanging out with my friends and family.
+          Recently, I've been spending a lot of time in the AI space, building intelligent workflows and
+          LLM-powered applications using LangGraph and OpenAI APIs. Outside of tech, I like staying active,
+          playing piano, and spending time with friends and family.
         </p>
       </div>
 
       <div class="skill-grid" aria-label="Technical skills">
-        <article class="skill-card" *ngFor="let skill of content.skills">
+        <article class="skill-card" [ngClass]="getCategoryClass(skill.category)" *ngFor="let skill of content.skills">
           <i class="skill-icon" [ngClass]="getSkillFaClass(skill)" aria-hidden="true"></i>
           <h3>{{ skill.name }}</h3>
         </article>
@@ -71,19 +67,29 @@
       <h2 id="experience-heading">Experience</h2>
 
       <div class="timeline-list">
-        <article class="timeline-item" *ngFor="let item of content.experience">
-          <div class="timeline-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</div>
+        <article class="timeline-item experience-item" *ngFor="let item of content.experience | slice:0:visibleExperienceCount">
           <div class="timeline-card experience-card">
             <div>
-              <h3>{{ item.title }}</h3>
-              <p class="company">{{ item.company }}</p>
-              <p class="location" *ngIf="item.location">{{ item.location }}</p>
+              <h3>{{ item.title }}<span class="meta-divider"> | </span><span class="title-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</span></h3>
+              <p class="experience-meta">{{ item.company }}<ng-container *ngIf="item.location"><span class="meta-divider"> | </span>{{ item.location }}</ng-container></p>
               <ul class="task-list" *ngIf="item.tasks && item.tasks.length">
                 <li *ngFor="let task of item.tasks | slice:0:3">{{ task.description }}</li>
+              </ul>
+              <ul class="pill-list" *ngIf="item.technologies && item.technologies.length">
+                <li *ngFor="let tech of item.technologies">
+                  <i [ngClass]="getFaClass(tech.icon)" aria-hidden="true"></i>
+                  {{ tech.name }}
+                </li>
               </ul>
             </div>
           </div>
         </article>
+      </div>
+
+      <div class="load-more-row" *ngIf="visibleExperienceCount < content.experience.length">
+        <button type="button" class="load-more-btn" (click)="loadMoreExperience(content.experience.length)">
+          Load more
+        </button>
       </div>
     </section>
 

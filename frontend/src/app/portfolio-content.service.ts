@@ -24,6 +24,12 @@ export interface ExperienceTask {
   sortOrder: number;
 }
 
+export interface ExperienceTechnology {
+  id: number;
+  name: string;
+  icon?: IconContent | null;
+}
+
 export interface ExperienceItem {
   id: number;
   company: string;
@@ -32,6 +38,7 @@ export interface ExperienceItem {
   startDate: string;
   endDate?: string | null;
   tasks: ExperienceTask[];
+  technologies: ExperienceTechnology[];
 }
 
 export interface ProjectTechnology {
@@ -82,7 +89,8 @@ const fallbackExperience: ExperienceItem[] = [
     endDate: null,
     tasks: [
       { id: 1, description: 'Task or responsibility', sortOrder: 1 }
-    ]
+    ],
+    technologies: []
   }
 ];
 
@@ -138,7 +146,7 @@ export class PortfolioContentService {
       skills: this.http.get<SkillItem[]>(`${environment.apiBaseUrl}/api/skills`).pipe(
         timeout(30000),
         catchError(() => of(fallbackSkills)),
-        map(skills => [...skills].sort((a, b) => a.category.localeCompare(b.category) || a.displayOrder - b.displayOrder || a.name.localeCompare(b.name)))
+        map(skills => [...skills].sort((a, b) => b.category.localeCompare(a.category) || a.displayOrder - b.displayOrder)) 
       ),
       experience: this.http.get<ExperienceItem[]>(`${environment.apiBaseUrl}/api/work-experience`).pipe(timeout(30000), catchError(() => of(fallbackExperience))),
       education: this.http.get<EducationItem[]>(`${environment.apiBaseUrl}/api/education`).pipe(timeout(30000), catchError(() => of(fallbackEducation))),

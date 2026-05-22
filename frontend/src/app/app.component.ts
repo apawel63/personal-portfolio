@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   readonly content$: Observable<PortfolioContent>;
   activeSection: string | null = 'about';
   selectedProject: ProjectItem | null = null;
+  visibleExperienceCount = 2;
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
@@ -57,6 +58,10 @@ export class AppComponent implements OnInit, OnDestroy {
   openProjectDetails(project: ProjectItem): void {
     this.selectedProject = project;
     document.body.classList.add('modal-open');
+  }
+
+  loadMoreExperience(total: number): void {
+    this.visibleExperienceCount = total;
   }
 
   closeProjectDetails(): void {
@@ -110,6 +115,10 @@ export class AppComponent implements OnInit, OnDestroy {
     return mapping[icon.name] ?? 'fa-solid fa-circle';
   }
 
+  getCategoryClass(category: string): string {
+    return 'skill-cat-' + category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  }
+
   getSkillFaClass(skill: SkillItem): string {
     const mapping: Record<string, string> = {
       'Java': 'fa-brands fa-java',
@@ -123,7 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
       'Python': 'fa-brands fa-python',
       'LangChain & LangGraph': 'fa-solid fa-bezier-curve',
       'OpenAI APIs': 'fa-solid fa-robot',
-      'SQL Databases': 'fa-solid fa-database',
+      'Chroma DB': 'fa-solid fa-database',
     };
 
     return mapping[skill.name] ?? this.getFaClass(skill.icon);
