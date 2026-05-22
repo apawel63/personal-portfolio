@@ -67,19 +67,29 @@
       <h2 id="experience-heading">Experience</h2>
 
       <div class="timeline-list">
-        <article class="timeline-item" *ngFor="let item of content.experience">
-          <div class="timeline-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</div>
+        <article class="timeline-item experience-item" *ngFor="let item of content.experience | slice:0:visibleExperienceCount">
           <div class="timeline-card experience-card">
             <div>
-              <h3>{{ item.title }}</h3>
-              <p class="company">{{ item.company }}</p>
-              <p class="location" *ngIf="item.location">{{ item.location }}</p>
+              <h3>{{ item.title }}<span class="meta-divider"> | </span><span class="title-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</span></h3>
+              <p class="experience-meta">{{ item.company }}<ng-container *ngIf="item.location"><span class="meta-divider"> | </span>{{ item.location }}</ng-container></p>
               <ul class="task-list" *ngIf="item.tasks && item.tasks.length">
                 <li *ngFor="let task of item.tasks | slice:0:3">{{ task.description }}</li>
+              </ul>
+              <ul class="pill-list" *ngIf="item.technologies && item.technologies.length">
+                <li *ngFor="let tech of item.technologies">
+                  <i [ngClass]="getFaClass(tech.icon)" aria-hidden="true"></i>
+                  {{ tech.name }}
+                </li>
               </ul>
             </div>
           </div>
         </article>
+      </div>
+
+      <div class="load-more-row" *ngIf="visibleExperienceCount < content.experience.length">
+        <button type="button" class="load-more-btn" (click)="loadMoreExperience(content.experience.length)">
+          Load more
+        </button>
       </div>
     </section>
 

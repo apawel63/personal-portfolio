@@ -3,7 +3,9 @@ package com.personalprojects.portfolio.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
  
 @Entity
 @Table(name = "WorkExperience")
@@ -37,6 +39,14 @@ public class WorkExperience {
     )
     @OrderBy("sortOrder ASC")
     private List<WorkExperienceTask> tasks = new ArrayList<>();
+
+    @OneToMany(
+        mappedBy = "workExperience",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
+    private Set<WorkExperienceTechnology> technologies = new HashSet<>();
  
     // --- Constructors ---
  
@@ -84,4 +94,7 @@ public class WorkExperience {
  
     public List<WorkExperienceTask> getTasks() { return tasks; }
     public void setTasks(List<WorkExperienceTask> tasks) { this.tasks = tasks; }
+
+    public Set<WorkExperienceTechnology> getTechnologies() { return technologies; }
+    public void setTechnologies(Set<WorkExperienceTechnology> technologies) { this.technologies = technologies; }
 }

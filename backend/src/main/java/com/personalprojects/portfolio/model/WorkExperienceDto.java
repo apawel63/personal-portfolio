@@ -2,6 +2,7 @@ package com.personalprojects.portfolio.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class WorkExperienceDto {
 
@@ -12,9 +13,46 @@ public class WorkExperienceDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private List<TaskDto> tasks;
- 
-    // --- Nested DTO ---
- 
+    private List<TechnologyDto> technologies;
+
+    // --- Nested DTOs ---
+
+    public static class IconDto {
+        private Integer id;
+        private String library;
+        private String name;
+
+        public static IconDto from(Icon icon) {
+            IconDto dto = new IconDto();
+            dto.id = icon.getId();
+            dto.library = icon.getLibrary();
+            dto.name = icon.getName();
+            return dto;
+        }
+
+        public Integer getId() { return id; }
+        public String getLibrary() { return library; }
+        public String getName() { return name; }
+    }
+
+    public static class TechnologyDto {
+        private Integer id;
+        private String name;
+        private IconDto icon;
+
+        public static TechnologyDto from(WorkExperienceTechnology tech) {
+            TechnologyDto dto = new TechnologyDto();
+            dto.id = tech.getId();
+            dto.name = tech.getName();
+            dto.icon = IconDto.from(tech.getIcon());
+            return dto;
+        }
+
+        public Integer getId() { return id; }
+        public String getName() { return name; }
+        public IconDto getIcon() { return icon; }
+    }
+
     public static class TaskDto {
         private Integer id;
         private String description;
@@ -46,6 +84,9 @@ public class WorkExperienceDto {
         dto.tasks = entity.getTasks().stream()
                 .map(TaskDto::from)
                 .toList();
+        dto.technologies = entity.getTechnologies().stream()
+                .map(TechnologyDto::from)
+                .toList();
         return dto;
     }
  
@@ -58,5 +99,6 @@ public class WorkExperienceDto {
     public LocalDate getStartDate() { return startDate; }
     public LocalDate getEndDate() { return endDate; }
     public List<TaskDto> getTasks() { return tasks; }
+    public List<TechnologyDto> getTechnologies() { return technologies; }
 
 }

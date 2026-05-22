@@ -24,6 +24,12 @@ export interface ExperienceTask {
   sortOrder: number;
 }
 
+export interface ExperienceTechnology {
+  id: number;
+  name: string;
+  icon?: IconContent | null;
+}
+
 export interface ExperienceItem {
   id: number;
   company: string;
@@ -32,6 +38,7 @@ export interface ExperienceItem {
   startDate: string;
   endDate?: string | null;
   tasks: ExperienceTask[];
+  technologies: ExperienceTechnology[];
 }
 
 export interface ProjectTechnology {
@@ -82,7 +89,8 @@ const fallbackExperience: ExperienceItem[] = [
     endDate: null,
     tasks: [
       { id: 1, description: 'Task or responsibility', sortOrder: 1 }
-    ]
+    ],
+    technologies: []
   }
 ];
 

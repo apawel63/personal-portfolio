@@ -12,12 +12,11 @@ import java.util.Optional;
 @Repository
 public interface WorkExperienceRepository extends JpaRepository<WorkExperience, Integer> {
  
-    // Fetch all records with tasks in a single query (avoids N+1)
-    // Note: task order is handled by @OrderBy on the entity — don't repeat it here
-    @Query("SELECT w FROM WorkExperience w LEFT JOIN FETCH w.tasks ORDER BY w.startDate DESC")
+    // DISTINCT avoids duplicate root rows from joining two collections.
+    // List<tasks> + Set<technologies> avoids Hibernate MultipleBagFetchException.
+    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks LEFT JOIN FETCH w.technologies t LEFT JOIN FETCH t.icon ORDER BY w.startDate DESC")
     List<WorkExperience> findAllWithTasks();
- 
-    // Single record with tasks
-    @Query("SELECT w FROM WorkExperience w LEFT JOIN FETCH w.tasks WHERE w.id = :id")
+
+    @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks LEFT JOIN FETCH w.technologies t LEFT JOIN FETCH t.icon WHERE w.id = :id")
     Optional<WorkExperience> findByIdWithTasks(Integer id);
 }

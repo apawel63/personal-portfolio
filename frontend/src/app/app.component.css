@@ -267,6 +267,13 @@ h1 {
   transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
+.experience-item {
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .timeline-item:hover {
   border-color: rgba(148, 163, 184, 0.14);
   background: rgba(30, 41, 59, 0.54);
@@ -329,14 +336,28 @@ h1 {
   color: #cbd5e1;
 }
 
-.company {
-  color: #cbd5e1;
-  font-size: 0.95rem;
+.title-date {
+  color: #64748b;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.experience-meta {
+  margin-bottom: 0.25rem;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.meta-divider {
+  margin: 0 0.25rem;
+  color: #475569;
 }
 
 .task-list {
   list-style: none;
-  padding: 0.75rem 0 0;
+  padding: 0.75rem 0 0 1rem;
   margin: 0;
   color: #94a3b8;
 }
@@ -344,7 +365,7 @@ h1 {
 .task-list li {
   position: relative;
   margin-bottom: 0.5rem;
-  padding-left: 1.25rem;
+  padding-left: 0;
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -353,7 +374,7 @@ h1 {
   content: '';
   position: absolute;
   top: 0.72rem;
-  left: 0;
+  left: -0.75rem;
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 50%;
@@ -362,6 +383,33 @@ h1 {
 
 .experience-card {
   grid-template-columns: 1fr;
+}
+
+.load-more-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.load-more-btn {
+  padding: 0.55rem 1.5rem;
+  border: 1px solid rgba(45, 212, 191, 0.22);
+  border-radius: 8px;
+  background: rgba(20, 184, 166, 0.08);
+  color: #5eead4;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.load-more-btn:hover,
+.load-more-btn:focus-visible {
+  border-color: rgba(45, 212, 191, 0.44);
+  background: rgba(20, 184, 166, 0.16);
+  transform: translateY(-1px);
 }
 
 .project-grid {

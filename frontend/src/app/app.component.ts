@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   readonly content$: Observable<PortfolioContent>;
   activeSection: string | null = 'about';
   selectedProject: ProjectItem | null = null;
+  visibleExperienceCount = 2;
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
@@ -57,6 +58,10 @@ export class AppComponent implements OnInit, OnDestroy {
   openProjectDetails(project: ProjectItem): void {
     this.selectedProject = project;
     document.body.classList.add('modal-open');
+  }
+
+  loadMoreExperience(total: number): void {
+    this.visibleExperienceCount = total;
   }
 
   closeProjectDetails(): void {
