@@ -15,33 +15,12 @@ public class Icon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
-    private String library;
+    @Column(name = "css_class", nullable = false, length = 200)
+    private String cssClass;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLibrary() {
-        return library;
-    }
-
-    public void setLibrary(String library) {
-        this.library = library;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getCssClass() { return cssClass; }
+    public void setCssClass(String cssClass) { this.cssClass = cssClass; }
 }

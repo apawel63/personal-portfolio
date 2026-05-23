@@ -16,21 +16,15 @@ public class ProjectDto {
     // --- Nested DTOs ---
 
     public static class IconDto {
-        private Integer id;
-        private String library;
-        private String name;
+        private String cssClass;
 
         public static IconDto from(Icon icon) {
             IconDto dto = new IconDto();
-            dto.id = icon.getId();
-            dto.library = icon.getLibrary();
-            dto.name = icon.getName();
+            dto.cssClass = icon.getCssClass();
             return dto;
         }
 
-        public Integer getId() { return id; }
-        public String getLibrary() { return library; }
-        public String getName() { return name; }
+        public String getCssClass() { return cssClass; }
     }
 
     public static class TechnologyDto {

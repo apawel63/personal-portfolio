@@ -4,9 +4,7 @@ import { environment } from '../environments/environment';
 import { Observable, catchError, forkJoin, map, of, timeout } from 'rxjs';
 
 export interface IconContent {
-  id: number;
-  library: string;
-  name: string;
+  cssClass: string;
 }
 
 export interface EducationItem {
@@ -119,7 +117,7 @@ const fallbackProjects: ProjectItem[] = [
       {
         id: 1,
         name: 'Source Code',
-        icon: { id: 1, library: 'fa', name: 'FaGithub' },
+        icon: { cssClass: 'fa-brands fa-github' },
         url: 'https://github.com/'
       }
     ]
@@ -127,14 +125,14 @@ const fallbackProjects: ProjectItem[] = [
 ];
 
 const fallbackSkills: SkillItem[] = [
-  { id: 1, category: 'Frontend', name: 'HTML', icon: { id: 1, library: 'si', name: 'SiHtml5' }, displayOrder: 1 },
-  { id: 2, category: 'Frontend', name: 'CSS', icon: { id: 2, library: 'si', name: 'SiCss3' }, displayOrder: 2 },
-  { id: 3, category: 'Frontend', name: 'JavaScript', icon: { id: 3, library: 'si', name: 'SiJavascript' }, displayOrder: 3 },
-  { id: 4, category: 'Frontend', name: 'React', icon: { id: 4, library: 'si', name: 'SiReact' }, displayOrder: 4 },
-  { id: 5, category: 'Backend', name: 'Spring Boot', icon: { id: 5, library: 'si', name: 'SiSpringboot' }, displayOrder: 5 },
-  { id: 6, category: 'Language', name: 'Python', icon: { id: 6, library: 'si', name: 'SiPython' }, displayOrder: 6 },
-  { id: 7, category: 'Cloud', name: 'Azure', icon: { id: 7, library: 'si', name: 'SiMicrosoftazure' }, displayOrder: 7 },
-  { id: 8, category: 'Tools', name: 'Git', icon: { id: 8, library: 'si', name: 'SiGit' }, displayOrder: 8 }
+  { id: 1, category: 'Frontend', name: 'HTML', icon: { cssClass: 'fa-brands fa-html5' }, displayOrder: 1 },
+  { id: 2, category: 'Frontend', name: 'CSS', icon: { cssClass: 'fa-brands fa-css3-alt' }, displayOrder: 2 },
+  { id: 3, category: 'Frontend', name: 'JavaScript', icon: { cssClass: 'fa-brands fa-js' }, displayOrder: 3 },
+  { id: 4, category: 'Frontend', name: 'React', icon: { cssClass: 'fa-brands fa-react' }, displayOrder: 4 },
+  { id: 5, category: 'Backend', name: 'Spring Boot', icon: { cssClass: 'fa-solid fa-leaf' }, displayOrder: 5 },
+  { id: 6, category: 'Language', name: 'Python', icon: { cssClass: 'fa-brands fa-python' }, displayOrder: 6 },
+  { id: 7, category: 'Cloud', name: 'Azure', icon: { cssClass: 'fa-brands fa-microsoft' }, displayOrder: 7 },
+  { id: 8, category: 'Tools', name: 'Git', icon: { cssClass: 'fa-brands fa-git-alt' }, displayOrder: 8 }
 ];
 
 @Injectable({ providedIn: 'root' })
