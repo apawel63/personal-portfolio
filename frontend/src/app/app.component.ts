@@ -1,8 +1,8 @@
 import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PortfolioContent, PortfolioContentService, ProjectItem, SkillItem } from './portfolio-content.service';
+import { PortfolioContent, PortfolioContentService, SkillItem } from './portfolio-content.service';
 import { DateRangePipe } from './date-range.pipe';
 
 @Component({
@@ -12,11 +12,12 @@ import { DateRangePipe } from './date-range.pipe';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   readonly content$: Observable<PortfolioContent>;
   activeSection: string | null = 'about';
-  selectedProject: ProjectItem | null = null;
   visibleExperienceCount = 2;
+  visibleProjectCount = 3;
+  expandedDescriptions = new Set<number>();
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
@@ -51,29 +52,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.activeSection = current;
   }
 
-  ngOnDestroy(): void {
-    document.body.classList.remove('modal-open');
-  }
-
-  openProjectDetails(project: ProjectItem): void {
-    this.selectedProject = project;
-    document.body.classList.add('modal-open');
-  }
-
   loadMoreExperience(total: number): void {
     this.visibleExperienceCount = total;
   }
 
-  closeProjectDetails(): void {
-    this.selectedProject = null;
-    document.body.classList.remove('modal-open');
+  loadMoreProjects(total: number): void {
+    this.visibleProjectCount = total;
   }
 
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
-    if (this.selectedProject) {
-      this.closeProjectDetails();
+  toggleDescription(projectId: number): void {
+    if (this.expandedDescriptions.has(projectId)) {
+      this.expandedDescriptions.delete(projectId);
+    } else {
+      this.expandedDescriptions.add(projectId);
     }
+  }
+
+  isDescriptionTruncatable(description: string): boolean {
+    return description.length > 225;
   }
 
   // TODO: Refactor icon mappings - should be completely dynamic from DB
