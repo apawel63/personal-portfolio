@@ -3,10 +3,10 @@
     <div>
       <p class="eyebrow">Personal Portfolio</p>
       <h1>Alex Pawelczyk</h1>
-      <h2>Full-stack developer</h2>
+      <h2>Software Engineer</h2>
       <p class="tagline">Spring Boot&nbsp;•&nbsp;Angular&nbsp;•&nbsp;Azure&nbsp;•&nbsp;AI Workflows</p>
       <p class="lede">
-        Building thoughtful software solutions with modern technologies and practical engineering.
+        Backend to browser, built for production.
       </p>
     </div>
 
@@ -30,8 +30,9 @@
     </nav>
 
     <div class="meta-links" aria-label="Profile links">
-      <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href="https://github.com/apawel63" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/alex-pawelczyk-533503198/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href="assets/alex_pawelczyk_resume_2026.pdf" target="_blank" rel="noreferrer">Resume</a>
     </div>
   </aside>
 
@@ -43,9 +44,8 @@
       <div class="copy-stack about-copy">
         <p>
           I'm a passionate software engineer focused on building scalable, cloud-native applications that
-          solve real business problems. My experience centers around Java, Spring Boot, Angular, and Azure, 
-          where I design modern backend services, secure APIs, and intuitive user experiences with a strong 
-          focus on quality, automation, and maintainability.
+          solve real business problems. My experience centers around building modern backend services, 
+          secure APIs, and intuitive user experiences for enterprise web and mobile applications.
         </p>
         <p>
           Recently, I've been spending a lot of time in the AI space, building intelligent workflows and
@@ -98,17 +98,40 @@
       <h2 id="projects-heading">Projects</h2>
 
       <div class="project-grid">
-        <article class="project-card" *ngFor="let project of content.projects">
-          <div class="project-image">
-            <img [src]="project.imageUrl" [alt]="project.title + ' preview'">
-          </div>
-
+        <article class="project-card" *ngFor="let project of content.projects | slice:0:visibleProjectCount">
           <div class="project-body">
             <p class="project-category">{{ project.category }}</p>
             <h3>{{ project.title }}</h3>
 
-            <div class="project-actions">
-              <div class="icon-link-list" *ngIf="project.links && project.links.length" [attr.aria-label]="project.title + ' links'">
+            <div class="project-image">
+              <img [src]="project.imageUrl" [alt]="project.title + ' preview'">
+            </div>
+
+            <div class="card-section">
+              <h4 class="card-section-label">Description</h4>
+              <p
+                class="project-description"
+                [class.expanded]="expandedDescriptions.has(project.id)"
+                [class.is-truncatable]="isDescriptionTruncatable(project.description)"
+                (click)="isDescriptionTruncatable(project.description) && toggleDescription(project.id)"
+                [title]="isDescriptionTruncatable(project.description) ? (expandedDescriptions.has(project.id) ? 'Click to collapse' : 'Click to expand') : ''">
+                {{ project.description }}
+              </p>
+            </div>
+
+            <div class="card-section" *ngIf="project.technologies && project.technologies.length">
+              <h4 class="card-section-label">Technologies</h4>
+              <ul class="pill-list">
+                <li *ngFor="let tech of project.technologies">
+                  <i [ngClass]="getFaClass(tech.icon)" aria-hidden="true"></i>
+                  {{ tech.name }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="card-section" *ngIf="project.links && project.links.length">
+              <h4 class="card-section-label">Links</h4>
+              <div class="icon-link-list" [attr.aria-label]="project.title + ' links'">
                 <a
                   *ngFor="let link of project.links"
                   [href]="link.url"
@@ -119,60 +142,18 @@
                   <i [ngClass]="getFaClass(link.icon)" aria-hidden="true"></i>
                 </a>
               </div>
-
-              <button type="button" class="details-button" (click)="openProjectDetails(project)">
-                Details
-              </button>
             </div>
+
           </div>
         </article>
       </div>
-    </section>
 
-    <div
-      class="modal-backdrop"
-      *ngIf="selectedProject as project"
-      role="presentation"
-      (click)="closeProjectDetails()">
-      <section
-        class="project-modal"
-        role="dialog"
-        aria-modal="true"
-        [attr.aria-labelledby]="'project-modal-title-' + project.id"
-        (click)="$event.stopPropagation()">
-        <button type="button" class="modal-close" (click)="closeProjectDetails()" aria-label="Close project details">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      <div class="load-more-row" *ngIf="visibleProjectCount < content.projects.length">
+        <button type="button" class="load-more-btn" (click)="loadMoreProjects(content.projects.length)">
+          Load more
         </button>
-
-        <p class="project-category">{{ project.category }}</p>
-        <h2 [id]="'project-modal-title-' + project.id">{{ project.title }}</h2>
-        <p class="modal-description">{{ project.description }}</p>
-
-        <div class="modal-section" *ngIf="project.technologies && project.technologies.length">
-          <h3>Technologies</h3>
-          <ul class="pill-list">
-            <li *ngFor="let technology of project.technologies">
-              <i [ngClass]="getFaClass(technology.icon)" aria-hidden="true"></i>
-              {{ technology.name }}
-            </li>
-          </ul>
-        </div>
-
-        <div class="modal-section" *ngIf="project.links && project.links.length">
-          <h3>Links</h3>
-          <div class="modal-link-list">
-            <a
-              *ngFor="let link of project.links"
-              [href]="link.url"
-              target="_blank"
-              rel="noreferrer">
-              <i [ngClass]="getFaClass(link.icon)" aria-hidden="true"></i>
-              {{ link.name }}
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
 
     <section id="education" class="section-block" aria-labelledby="education-heading">
       <p class="section-kicker">04</p>
