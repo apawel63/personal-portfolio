@@ -1,0 +1,26 @@
+<section id="education" class="section-block" aria-labelledby="education-heading">
+  <p class="section-kicker">04</p>
+  <h2 id="education-heading">Education</h2>
+
+  <div class="timeline-list">
+    <article class="timeline-item" *ngFor="let item of education">
+      <div class="timeline-date">{{ item.duration || 'Present' }}</div>
+      <div class="timeline-card">
+        <div class="avatar" *ngIf="item.avatar; else initials">
+          <img [src]="item.avatar" [alt]="item.school + ' logo'" (error)="item.avatar = null">
+        </div>
+        <ng-template #initials>
+          <div class="avatar avatar-fallback" aria-hidden="true">
+            {{ item.school.charAt(0) }}
+          </div>
+        </ng-template>
+
+        <div>
+          <h3>{{ item.degree }}</h3>
+          <p class="school">{{ item.school }}</p>
+          <p class="location" *ngIf="item.location">{{ item.location }}</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.copy-stack {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.copy-stack p {
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.about-copy {
+  margin-top: 0;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.skill-card {
+  display: grid;
+  min-height: 6.6rem;
+  place-items: center;
+  align-content: center;
+  gap: 1.1rem;
+  padding: 1.1rem 0.85rem;
+  border: 1px solid rgba(var(--card-accent-rgb, 94, 234, 212), 0.24);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.64);
+  text-align: center;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.skill-card:hover {
+  border-color: rgba(var(--card-accent-rgb, 94, 234, 212), 0.5);
+  transform: translateY(-2px);
+}
+
+.skill-icon {
+  display: grid;
+  min-height: 2rem;
+  place-items: center;
+  color: rgb(var(--card-accent-rgb, 94, 234, 212));
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.skill-cat-full-stack-dev { --card-accent-rgb: 94, 234, 212; }
+.skill-cat-cloud-devops   { --card-accent-rgb: 125, 211, 252; }
+.skill-cat-ai             { --card-accent-rgb: 251, 113, 133; }
+
+.skill-card h3 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+@media (max-width: 620px) {
+  .skill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
