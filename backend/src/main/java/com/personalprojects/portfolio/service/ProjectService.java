@@ -19,14 +19,16 @@ public class ProjectService {
     }
 
     public List<ProjectDto> getAllWithTechnologiesAndLinks() {
-        return projectRepository.findAllWithTechnologiesAndLinks()
+        projectRepository.findAllWithLinks();
+        return projectRepository.findAllWithTechnologies()
                 .stream()
                 .map(ProjectDto::from)
                 .toList();
     }
 
     public ProjectDto getByIdWithTechnologiesAndLinks(Integer id) {
-        return projectRepository.findByIdWithTechnologiesAndLinks(id)
+        projectRepository.findByIdWithLinks(id);
+        return projectRepository.findByIdWithTechnologies(id)
                 .map(ProjectDto::from)
                 .orElseThrow(() -> new ProjectNotFoundException(id));
     }

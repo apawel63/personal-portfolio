@@ -12,21 +12,27 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    // Fetch all projects with technologies and links in a single query (avoids N+1)
     @Query("SELECT DISTINCT p FROM Project p " +
            "LEFT JOIN FETCH p.technologies t " +
            "LEFT JOIN FETCH t.icon " +
+           "ORDER BY p.id")
+    List<Project> findAllWithTechnologies();
+
+    @Query("SELECT DISTINCT p FROM Project p " +
            "LEFT JOIN FETCH p.links l " +
            "LEFT JOIN FETCH l.icon " +
            "ORDER BY p.id")
-    List<Project> findAllWithTechnologiesAndLinks();
+    List<Project> findAllWithLinks();
 
-    // Single project with technologies and links
     @Query("SELECT p FROM Project p " +
            "LEFT JOIN FETCH p.technologies t " +
            "LEFT JOIN FETCH t.icon " +
+           "WHERE p.id = :id")
+    Optional<Project> findByIdWithTechnologies(Integer id);
+
+    @Query("SELECT p FROM Project p " +
            "LEFT JOIN FETCH p.links l " +
            "LEFT JOIN FETCH l.icon " +
            "WHERE p.id = :id")
-    Optional<Project> findByIdWithTechnologiesAndLinks(Integer id);
+    Optional<Project> findByIdWithLinks(Integer id);
 }
