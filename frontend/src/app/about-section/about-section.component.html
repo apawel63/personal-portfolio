@@ -1,0 +1,24 @@
+<section id="about" class="section-block" aria-labelledby="about-heading">
+  <p class="section-kicker">01</p>
+  <h2 id="about-heading">About</h2>
+
+  <div class="copy-stack about-copy">
+    <p>
+      I'm a passionate software engineer focused on building scalable, cloud-native applications that
+      solve real business problems. My experience centers around building modern backend services,
+      secure APIs, and intuitive user experiences for enterprise web and mobile applications.
+    </p>
+    <p>
+      Recently, I've been spending a lot of time in the AI space, building intelligent workflows and
+      LLM-powered applications using LangGraph and OpenAI APIs. Outside of tech, I like staying active,
+      playing piano, and spending time with friends and family.
+    </p>
+  </div>
+
+  <div class="skill-grid" aria-label="Technical skills">
+    <article class="skill-card" [ngClass]="getCategoryClass(skill.category)" *ngFor="let skill of skills">
+      <i class="skill-icon" [ngClass]="skill.icon?.cssClass" aria-hidden="true"></i>
+      <h3>{{ skill.name }}</h3>
+    </article>
+  </div>
+</section>

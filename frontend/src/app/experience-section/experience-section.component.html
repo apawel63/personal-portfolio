@@ -1,0 +1,30 @@
+<section id="experience" class="section-block" aria-labelledby="experience-heading">
+  <p class="section-kicker">02</p>
+  <h2 id="experience-heading">Experience</h2>
+
+  <div class="timeline-list">
+    <article class="timeline-item experience-item" *ngFor="let item of experience | slice:0:visibleCount">
+      <div class="timeline-card experience-card">
+        <div>
+          <h3>{{ item.title }}<span class="meta-divider"> | </span><span class="title-date">{{ { startDate: item.startDate, endDate: item.endDate } | dateRange }}</span></h3>
+          <p class="experience-meta">{{ item.company }}<ng-container *ngIf="item.location"><span class="meta-divider"> | </span>{{ item.location }}</ng-container></p>
+          <ul class="task-list" *ngIf="item.tasks && item.tasks.length">
+            <li *ngFor="let task of item.tasks | slice:0:3">{{ task.description }}</li>
+          </ul>
+          <ul class="pill-list" *ngIf="item.technologies && item.technologies.length">
+            <li *ngFor="let tech of item.technologies">
+              <i [ngClass]="tech.icon?.cssClass" aria-hidden="true"></i>
+              {{ tech.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="load-more-row" *ngIf="visibleCount < experience.length">
+    <button type="button" class="load-more-btn" (click)="loadMore(experience.length)">
+      Load more
+    </button>
+  </div>
+</section>

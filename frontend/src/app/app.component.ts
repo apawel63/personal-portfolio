@@ -1,23 +1,32 @@
-import { AsyncPipe, NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PortfolioContent, PortfolioContentService } from './portfolio-content.service';
-import { DateRangePipe } from './date-range.pipe';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { AboutSectionComponent } from './about-section/about-section.component';
+import { ExperienceSectionComponent } from './experience-section/experience-section.component';
+import { ProjectsSectionComponent } from './projects-section/projects-section.component';
+import { EducationSectionComponent } from './education-section/education-section.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe, NgFor, NgIf, NgClass, SlicePipe, DateRangePipe],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    SidebarComponent,
+    AboutSectionComponent,
+    ExperienceSectionComponent,
+    ProjectsSectionComponent,
+    EducationSectionComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   readonly content$: Observable<PortfolioContent>;
   activeSection: string | null = 'about';
-  visibleExperienceCount = 2;
-  visibleProjectCount = 3;
-  expandedDescriptions = new Set<number>();
 
   constructor(portfolioContentService: PortfolioContentService) {
     this.content$ = portfolioContentService.getPortfolioContent();
@@ -50,29 +59,5 @@ export class AppComponent implements OnInit {
     }
 
     this.activeSection = current;
-  }
-
-  loadMoreExperience(total: number): void {
-    this.visibleExperienceCount = total;
-  }
-
-  loadMoreProjects(total: number): void {
-    this.visibleProjectCount = total;
-  }
-
-  toggleDescription(projectId: number): void {
-    if (this.expandedDescriptions.has(projectId)) {
-      this.expandedDescriptions.delete(projectId);
-    } else {
-      this.expandedDescriptions.add(projectId);
-    }
-  }
-
-  isDescriptionTruncatable(description: string): boolean {
-    return description.length > 225;
-  }
-
-  getCategoryClass(category: string): string {
-    return 'skill-cat-' + category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   }
 }
