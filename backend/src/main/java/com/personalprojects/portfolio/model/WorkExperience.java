@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.BatchSize;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
  
 @Entity
 @Table(name = "WorkExperience")
@@ -47,8 +45,9 @@ public class WorkExperience {
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
+    @OrderBy("sortOrder ASC")
     @BatchSize(size = 25)
-    private Set<WorkExperienceTechnology> technologies = new HashSet<>();
+    private List<WorkExperienceTechnology> technologies = new ArrayList<>();
  
     // --- Constructors ---
  
@@ -97,6 +96,6 @@ public class WorkExperience {
     public List<WorkExperienceTask> getTasks() { return tasks; }
     public void setTasks(List<WorkExperienceTask> tasks) { this.tasks = tasks; }
 
-    public Set<WorkExperienceTechnology> getTechnologies() { return technologies; }
-    public void setTechnologies(Set<WorkExperienceTechnology> technologies) { this.technologies = technologies; }
+    public List<WorkExperienceTechnology> getTechnologies() { return technologies; }
+    public void setTechnologies(List<WorkExperienceTechnology> technologies) { this.technologies = technologies; }
 }

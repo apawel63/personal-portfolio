@@ -17,6 +17,9 @@ public class WorkExperienceTechnology {
     @Column(name = "Name", nullable = false, length = 100)
     private String name;
 
+    @Column(name = "SortOrder", nullable = false)
+    private Integer sortOrder;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IconId", nullable = false)
     private Icon icon;
@@ -34,6 +37,9 @@ public class WorkExperienceTechnology {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public Integer getSortOrder() { return sortOrder; }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
 
     public Icon getIcon() { return icon; }
     public void setIcon(Icon icon) { this.icon = icon; }
