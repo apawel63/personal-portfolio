@@ -24,15 +24,19 @@ public class Skill {
     @Column(name = "DisplayOrder", nullable = false)
     private Integer displayOrder = 0;
 
+    @Column(name = "Url", length = 500)
+    private String url;
+
     // --- Constructors ---
     public Skill() {}
 
-    public Skill(Integer id, String category, String name, Icon icon, Integer displayOrder) {
+    public Skill(Integer id, String category, String name, Icon icon, Integer displayOrder, String url) {
         this.id = id;
         this.category = category;
         this.name = name;
         this.icon = icon;
         this.displayOrder = displayOrder;
+        this.url = url;
     }
 
     // --- Getters & Setters ---
@@ -50,5 +54,8 @@ public class Skill {
 
     public Integer getDisplayOrder() { return displayOrder; }
     public void setDisplayOrder(Integer displayOrder) { this.displayOrder = displayOrder; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
 }

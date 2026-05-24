@@ -7,6 +7,7 @@ public class SkillDto {
     private String name;
     private IconDto icon;
     private Integer displayOrder;
+    private String url;
 
     // --- Nested DTO ---
 
@@ -31,6 +32,7 @@ public class SkillDto {
         dto.name = entity.getName();
         dto.icon = IconDto.from(entity.getIcon());
         dto.displayOrder = entity.getDisplayOrder();
+        dto.url = entity.getUrl();
         return dto;
     }
 
@@ -40,4 +42,5 @@ public class SkillDto {
     public String getName() { return name; }
     public IconDto getIcon() { return icon; }
     public Integer getDisplayOrder() { return displayOrder; }
+    public String getUrl() { return url; }
 }

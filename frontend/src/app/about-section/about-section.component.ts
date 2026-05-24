@@ -1,4 +1,4 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { SkillItem } from '../portfolio-content.service';
@@ -6,7 +6,7 @@ import { SkillItem } from '../portfolio-content.service';
 @Component({
   selector: 'app-about-section',
   standalone: true,
-  imports: [NgClass, NgFor],
+  imports: [NgClass, NgFor, NgIf],
   templateUrl: './about-section.component.html',
   styleUrl: './about-section.component.css'
 })
