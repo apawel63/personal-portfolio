@@ -113,6 +113,25 @@ p {
   cursor: pointer;
 }
 
+/* ── Loading skeleton ───────────────────────────────────────────────── */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.skeleton-block {
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.9) 25%,
+    rgba(51, 65, 85, 0.6) 50%,
+    rgba(30, 41, 59, 0.9) 75%
+  );
+  background-size: 1200px 100%;
+  animation: skeleton-shimmer 1.6s infinite linear;
+}
+
 /* ── Timeline (experience + education) ─────────────────────────────── */
 
 .timeline-list {

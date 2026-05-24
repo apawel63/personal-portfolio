@@ -8,6 +8,7 @@ import { AboutSectionComponent } from './about-section/about-section.component';
 import { ExperienceSectionComponent } from './experience-section/experience-section.component';
 import { ProjectsSectionComponent } from './projects-section/projects-section.component';
 import { EducationSectionComponent } from './education-section/education-section.component';
+import { SkeletonContentComponent } from './skeleton-content/skeleton-content.component';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ import { EducationSectionComponent } from './education-section/education-section
     ExperienceSectionComponent,
     ProjectsSectionComponent,
     EducationSectionComponent,
+    SkeletonContentComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

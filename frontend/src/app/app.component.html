@@ -9,8 +9,8 @@
   </main>
 
   <ng-template #loading>
-    <main class="content loading-state" aria-live="polite">
-      <p>Loading portfolio content...</p>
+    <main class="content" aria-live="polite" aria-busy="true">
+      <app-skeleton-content />
     </main>
   </ng-template>
 </div>
