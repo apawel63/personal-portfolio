@@ -70,6 +70,7 @@ export interface SkillItem {
   name: string;
   icon?: IconContent | null;
   displayOrder: number;
+  url?: string | null;
 }
 
 export interface PortfolioContent {

@@ -16,9 +16,20 @@
   </div>
 
   <div class="skill-grid" aria-label="Technical skills">
-    <article class="skill-card" [ngClass]="getCategoryClass(skill.category)" *ngFor="let skill of skills">
-      <i class="skill-icon" [ngClass]="skill.icon?.cssClass" aria-hidden="true"></i>
-      <h3>{{ skill.name }}</h3>
-    </article>
+    <ng-container *ngFor="let skill of skills">
+      <ng-container *ngIf="skill.url; else noLink">
+        <a class="skill-card" [ngClass]="getCategoryClass(skill.category)"
+           [href]="skill.url" target="_blank" rel="noopener noreferrer">
+          <i class="skill-icon" [ngClass]="skill.icon?.cssClass" aria-hidden="true"></i>
+          <h3>{{ skill.name }}</h3>
+        </a>
+      </ng-container>
+      <ng-template #noLink>
+        <article class="skill-card" [ngClass]="getCategoryClass(skill.category)">
+          <i class="skill-icon" [ngClass]="skill.icon?.cssClass" aria-hidden="true"></i>
+          <h3>{{ skill.name }}</h3>
+        </article>
+      </ng-template>
+    </ng-container>
   </div>
 </section>
