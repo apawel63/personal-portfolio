@@ -26,6 +26,7 @@ export interface ExperienceTechnology {
   id: number;
   name: string;
   icon?: IconContent | null;
+  url?: string | null;
 }
 
 export interface ExperienceItem {
@@ -43,6 +44,7 @@ export interface ProjectTechnology {
   id: number;
   name: string;
   icon?: IconContent | null;
+  url?: string | null;
 }
 
 export interface ProjectLink {

@@ -31,18 +31,21 @@ public class ProjectDto {
         private Integer id;
         private String name;
         private IconDto icon;
+        private String url;
 
         public static TechnologyDto from(Technology technology) {
             TechnologyDto dto = new TechnologyDto();
             dto.id = technology.getId();
             dto.name = technology.getName();
             dto.icon = IconDto.from(technology.getIcon());
+            dto.url = technology.getUrl();
             return dto;
         }
 
         public Integer getId() { return id; }
         public String getName() { return name; }
         public IconDto getIcon() { return icon; }
+        public String getUrl() { return url; }
     }
 
     public static class LinkDto {
