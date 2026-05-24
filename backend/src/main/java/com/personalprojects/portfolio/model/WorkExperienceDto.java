@@ -32,18 +32,21 @@ public class WorkExperienceDto {
         private Integer id;
         private String name;
         private IconDto icon;
+        private String url;
 
         public static TechnologyDto from(WorkExperienceTechnology tech) {
             TechnologyDto dto = new TechnologyDto();
             dto.id = tech.getId();
             dto.name = tech.getName();
             dto.icon = IconDto.from(tech.getIcon());
+            dto.url = tech.getUrl();
             return dto;
         }
 
         public Integer getId() { return id; }
         public String getName() { return name; }
         public IconDto getIcon() { return icon; }
+        public String getUrl() { return url; }
     }
 
     public static class TaskDto {

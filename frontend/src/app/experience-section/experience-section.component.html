@@ -13,8 +13,14 @@
           </ul>
           <ul class="pill-list" *ngIf="item.technologies && item.technologies.length">
             <li *ngFor="let tech of item.technologies">
-              <i [ngClass]="tech.icon?.cssClass" aria-hidden="true"></i>
-              {{ tech.name }}
+              <ng-container *ngIf="tech.url; else noLink">
+                <a [href]="tech.url" target="_blank" rel="noopener noreferrer">
+                  <i [ngClass]="tech.icon?.cssClass" aria-hidden="true"></i>{{ tech.name }}
+                </a>
+              </ng-container>
+              <ng-template #noLink>
+                <i [ngClass]="tech.icon?.cssClass" aria-hidden="true"></i>{{ tech.name }}
+              </ng-template>
             </li>
           </ul>
         </div>

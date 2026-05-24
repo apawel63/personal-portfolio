@@ -16,6 +16,9 @@ public class Technology {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(name = "url", length = 500)
+    private String url;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "icon_id", nullable = false)
     private Icon icon;
@@ -42,6 +45,9 @@ public class Technology {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
     public Icon getIcon() { return icon; }
     public void setIcon(Icon icon) { this.icon = icon; }
