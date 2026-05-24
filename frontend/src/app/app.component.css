@@ -17,10 +17,6 @@
   gap: clamp(5rem, 9vw, 8rem);
 }
 
-.loading-state {
-  align-content: center;
-  color: #94a3b8;
-}
 
 @media (max-width: 860px) {
   .site-shell {

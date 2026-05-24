@@ -1,0 +1,73 @@
+<section id="about" class="section-block">
+  <p class="section-kicker">01</p>
+  <h2>About</h2>
+  <div class="about-bio">
+    <p>I'm a passionate software engineer focused on building scalable, cloud-native applications that
+      solve real business problems. My experience centers around building modern backend services,
+      secure APIs, and intuitive user experiences for enterprise web and mobile applications.</p>
+    <p>Recently, I've been spending a lot of time in the AI space, building intelligent workflows and
+      LLM-powered applications using LangGraph and OpenAI APIs. Outside of tech, I like staying active,
+      playing piano, and spending time with friends and family.</p>
+  </div>
+  <div class="skill-grid" aria-hidden="true">
+    <div class="skill-card" *ngFor="let _ of skillCount">
+      <div class="skeleton-block skeleton-icon"></div>
+      <div class="skeleton-block skeleton-label"></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="section-block">
+  <p class="section-kicker">02</p>
+  <h2>Experience</h2>
+  <div class="timeline-list" aria-hidden="true">
+    <article class="timeline-item experience-item" *ngFor="let _ of experienceCount">
+      <div class="timeline-card experience-card">
+        <div class="skeleton-exp-body">
+          <div class="skeleton-block skeleton-title"></div>
+          <div class="skeleton-block skeleton-meta"></div>
+          <div class="skeleton-block skeleton-line" *ngFor="let _ of taskCount"></div>
+          <div class="skeleton-pills">
+            <div class="skeleton-block skeleton-pill" *ngFor="let _ of pillCount"></div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="projects" class="section-block">
+  <p class="section-kicker">03</p>
+  <h2>Projects</h2>
+  <div class="project-grid" aria-hidden="true">
+    <article class="project-card" *ngFor="let _ of projectCount">
+      <div class="project-body">
+        <div class="skeleton-block skeleton-category"></div>
+        <div class="skeleton-block skeleton-title"></div>
+        <div class="skeleton-block skeleton-image"></div>
+        <div class="skeleton-block skeleton-line"></div>
+        <div class="skeleton-block skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-pills">
+          <div class="skeleton-block skeleton-pill" *ngFor="let _ of pillCount"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="education" class="section-block">
+  <p class="section-kicker">04</p>
+  <h2>Education</h2>
+  <div class="timeline-list" aria-hidden="true">
+    <article class="timeline-item" *ngFor="let _ of educationCount">
+      <div class="skeleton-block skeleton-date"></div>
+      <div class="timeline-card">
+        <div class="skeleton-block skeleton-avatar"></div>
+        <div class="skeleton-edu-body">
+          <div class="skeleton-block skeleton-title"></div>
+          <div class="skeleton-block skeleton-meta"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
