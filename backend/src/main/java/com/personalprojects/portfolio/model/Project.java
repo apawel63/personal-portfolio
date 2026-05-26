@@ -29,13 +29,9 @@ public class Project {
     @Column(name = "SortOrder", nullable = false)
     private int sortOrder;
 
-    @OneToMany(
-        mappedBy = "project",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true,
-        fetch = FetchType.LAZY
-    )
-    private List<Technology> technologies = new ArrayList<>();
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @OrderBy("sortOrder ASC")
+    private List<ProjectTechnology> technologies = new ArrayList<>();
 
     @OneToMany(
         mappedBy = "project",
@@ -57,16 +53,6 @@ public class Project {
     }
 
     // --- Helper methods ---
-
-    public void addTechnology(Technology technology) {
-        technologies.add(technology);
-        technology.setProject(this);
-    }
-
-    public void removeTechnology(Technology technology) {
-        technologies.remove(technology);
-        technology.setProject(null);
-    }
 
     public void addLink(Link link) {
         links.add(link);
@@ -97,8 +83,8 @@ public class Project {
     public int getSortOrder() { return sortOrder; }
     public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
 
-    public List<Technology> getTechnologies() { return technologies; }
-    public void setTechnologies(List<Technology> technologies) { this.technologies = technologies; }
+    public List<ProjectTechnology> getTechnologies() { return technologies; }
+    public void setTechnologies(List<ProjectTechnology> technologies) { this.technologies = technologies; }
 
     public Set<Link> getLinks() { return links; }
     public void setLinks(Set<Link> links) { this.links = links; }

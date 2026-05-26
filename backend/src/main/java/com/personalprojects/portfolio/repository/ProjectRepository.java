@@ -13,7 +13,8 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     @Query("SELECT DISTINCT p FROM Project p " +
-           "LEFT JOIN FETCH p.technologies t " +
+           "LEFT JOIN FETCH p.technologies pt " +
+           "LEFT JOIN FETCH pt.technology t " +
            "LEFT JOIN FETCH t.icon " +
            "ORDER BY p.sortOrder")
     List<Project> findAllWithTechnologies();
@@ -25,7 +26,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findAllWithLinks();
 
     @Query("SELECT p FROM Project p " +
-           "LEFT JOIN FETCH p.technologies t " +
+           "LEFT JOIN FETCH p.technologies pt " +
+           "LEFT JOIN FETCH pt.technology t " +
            "LEFT JOIN FETCH t.icon " +
            "WHERE p.id = :id")
     Optional<Project> findByIdWithTechnologies(Integer id);

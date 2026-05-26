@@ -14,22 +14,19 @@ public class WorkExperienceTechnology {
     @Column(name = "WorkExperienceId", nullable = false)
     private Integer workExperienceId;
 
-    @Column(name = "Name", nullable = false, length = 100)
-    private String name;
+    @Column(name = "TechnologyId", nullable = false)
+    private Integer technologyId;
 
     @Column(name = "SortOrder", nullable = false)
     private Integer sortOrder;
 
-    @Column(name = "Url", length = 500)
-    private String url;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IconId", nullable = false)
-    private Icon icon;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WorkExperienceId", nullable = false, insertable = false, updatable = false)
     private WorkExperience workExperience;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TechnologyId", nullable = false, insertable = false, updatable = false)
+    private Technology technology;
 
     public WorkExperienceTechnology() {}
 
@@ -38,18 +35,15 @@ public class WorkExperienceTechnology {
     public Integer getWorkExperienceId() { return workExperienceId; }
     public void setWorkExperienceId(Integer workExperienceId) { this.workExperienceId = workExperienceId; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Integer getTechnologyId() { return technologyId; }
+    public void setTechnologyId(Integer technologyId) { this.technologyId = technologyId; }
 
     public Integer getSortOrder() { return sortOrder; }
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
 
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
-
-    public Icon getIcon() { return icon; }
-    public void setIcon(Icon icon) { this.icon = icon; }
-
     public WorkExperience getWorkExperience() { return workExperience; }
     public void setWorkExperience(WorkExperience workExperience) { this.workExperience = workExperience; }
+
+    public Technology getTechnology() { return technology; }
+    public void setTechnology(Technology technology) { this.technology = technology; }
 }

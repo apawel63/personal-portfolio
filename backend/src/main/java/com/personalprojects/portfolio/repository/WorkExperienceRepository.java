@@ -12,11 +12,24 @@ import java.util.Optional;
 @Repository
 public interface WorkExperienceRepository extends JpaRepository<WorkExperience, Integer> {
  
-    // Technologies are excluded from this join to avoid a Cartesian product (tasks × technologies)
-    // that duplicates List<tasks> entries. Technologies lazy-load via @BatchSize on the field.
+    // Tasks and technologies are fetched in separate queries to avoid a Cartesian product.
     @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks ORDER BY w.startDate DESC")
     List<WorkExperience> findAllWithTasks();
 
     @Query("SELECT DISTINCT w FROM WorkExperience w LEFT JOIN FETCH w.tasks WHERE w.id = :id")
     Optional<WorkExperience> findByIdWithTasks(Integer id);
+
+    @Query("SELECT DISTINCT w FROM WorkExperience w " +
+           "LEFT JOIN FETCH w.technologies wet " +
+           "LEFT JOIN FETCH wet.technology t " +
+           "LEFT JOIN FETCH t.icon " +
+           "ORDER BY w.startDate DESC")
+    List<WorkExperience> findAllWithTechnologies();
+
+    @Query("SELECT w FROM WorkExperience w " +
+           "LEFT JOIN FETCH w.technologies wet " +
+           "LEFT JOIN FETCH wet.technology t " +
+           "LEFT JOIN FETCH t.icon " +
+           "WHERE w.id = :id")
+    Optional<WorkExperience> findByIdWithTechnologies(Integer id);
 }

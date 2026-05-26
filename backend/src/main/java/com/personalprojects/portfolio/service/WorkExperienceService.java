@@ -19,13 +19,15 @@ public class WorkExperienceService {
     }
  
     public List<WorkExperienceDto> getAllWithTasks() {
+        workExperienceRepository.findAllWithTechnologies();
         return workExperienceRepository.findAllWithTasks()
                 .stream()
                 .map(WorkExperienceDto::from)
                 .toList();
     }
- 
+
     public WorkExperienceDto getByIdWithTasks(Integer id) {
+        workExperienceRepository.findByIdWithTechnologies(id);
         return workExperienceRepository.findByIdWithTasks(id)
                 .map(WorkExperienceDto::from)
                 .orElseThrow(() -> new WorkExperienceNotFoundException(id));
