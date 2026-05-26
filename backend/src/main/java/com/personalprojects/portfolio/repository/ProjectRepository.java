@@ -15,13 +15,13 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     @Query("SELECT DISTINCT p FROM Project p " +
            "LEFT JOIN FETCH p.technologies t " +
            "LEFT JOIN FETCH t.icon " +
-           "ORDER BY p.id")
+           "ORDER BY p.sortOrder")
     List<Project> findAllWithTechnologies();
 
     @Query("SELECT DISTINCT p FROM Project p " +
            "LEFT JOIN FETCH p.links l " +
            "LEFT JOIN FETCH l.icon " +
-           "ORDER BY p.id")
+           "ORDER BY p.sortOrder")
     List<Project> findAllWithLinks();
 
     @Query("SELECT p FROM Project p " +

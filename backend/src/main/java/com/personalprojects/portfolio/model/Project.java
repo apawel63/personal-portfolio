@@ -26,6 +26,9 @@ public class Project {
     @Column(nullable = false, length = 500)
     private String imageUrl;
 
+    @Column(name = "SortOrder", nullable = false)
+    private int sortOrder;
+
     @OneToMany(
         mappedBy = "project",
         cascade = CascadeType.ALL,
@@ -90,6 +93,9 @@ public class Project {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public int getSortOrder() { return sortOrder; }
+    public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
 
     public List<Technology> getTechnologies() { return technologies; }
     public void setTechnologies(List<Technology> technologies) { this.technologies = technologies; }
