@@ -35,11 +35,12 @@ public class WorkExperienceDto {
         private String url;
 
         public static TechnologyDto from(WorkExperienceTechnology tech) {
+            Technology t = tech.getTechnology();
             TechnologyDto dto = new TechnologyDto();
-            dto.id = tech.getId();
-            dto.name = tech.getName();
-            dto.icon = IconDto.from(tech.getIcon());
-            dto.url = tech.getUrl();
+            dto.id = t.getId();
+            dto.name = t.getName();
+            dto.icon = IconDto.from(t.getIcon());
+            dto.url = t.getUrl();
             return dto;
         }
 

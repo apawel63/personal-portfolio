@@ -33,12 +33,13 @@ public class ProjectDto {
         private IconDto icon;
         private String url;
 
-        public static TechnologyDto from(Technology technology) {
+        public static TechnologyDto from(ProjectTechnology pt) {
+            Technology t = pt.getTechnology();
             TechnologyDto dto = new TechnologyDto();
-            dto.id = technology.getId();
-            dto.name = technology.getName();
-            dto.icon = IconDto.from(technology.getIcon());
-            dto.url = technology.getUrl();
+            dto.id = t.getId();
+            dto.name = t.getName();
+            dto.icon = IconDto.from(t.getIcon());
+            dto.url = t.getUrl();
             return dto;
         }
 
